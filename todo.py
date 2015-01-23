@@ -1,4 +1,5 @@
 from prettytable import PrettyTable
+import datetime
 '''
 This module implements the classes for the ToDo list application
 '''
@@ -12,35 +13,38 @@ class TodoList(object):
 	def __init__(self):
 		self.master_list = []
 
-	def draw_table(self, master_list):
-		self.entry_titles = ['Done', 'Task Name', 'Task Type', 'Task owner', 'Due Date', 'Due Time']
-		
-		master_table = PrettyTable(self.entry_titles)
-		
-		for entry in master_list:
-			master_table.add_row([master_list[0]['done'],master_list[0]['task name'],master_list[0]['task type'],master_list[0]['task owner'],master_list[0]['due date'],master_list[0]['due time']])
-		
-		print master_table
-
 
 class TodoItem(object):
 	"""Manage a single ToDo item"""
-	def __init__(self):
-		pass
 
-	def add_entry(self):
+	# text - the task
+	# date - when the task was made
+	# duedate - date task is due
+	# who - whose task
+	# status - done y/n?
+	# 
+	# Behaviors:
+	# constructor - create a todo item
+	# change status - set the status
+	# get data
+	# 
 
-		self.task_name = raw_input("What's the task? ")
-	  	self.task_type = raw_input("What's the task type? ")
-	  	self.due_date = raw_input("What day is the task due? ")
-		self.due_time = raw_input("What time is the task due? ")
-		self.owner = raw_input("What's your name? ")
+	def __init__(self, task_name, task_type, task_owner, due_date = "n/a", due_time = "n/a", done = "No"):
+		self._task_name = task_name
+		self._task_type = task_type
+		self._task_owner = task_owner
+		self._due_date = due_date
+		self._due_time = due_time
+		self._done = done
 
-		self.entry = {'done': False, 'task name': self.task_name, 'task type': self.task_type, 'task owner': self.owner, 'due date': self.due_date, 'due time': self.due_time}
+		self._time_now = datetime.datetime.now()
+		self._date_created = datetime.datetime.now()
+		self._time_created = str(self._time_now.hour) + ":" + str(self._time_now.minute) + ":" + str(self._time_now.second)
+		# self._time_left = ??
 
-		return self.entry
-
-
+	def entry_list(self):
+		self.entry_list = [self._done, self._task_name, self._task_type, self._task_type, self._due_date, self._due_time, self._date_created, self._time_created]
+		return self.entry_list
 
 	# def add_entry(self, done = False, task_name, task_type, task_owner = fullname, due_date, due_time = "23:59:59"):
 	# 	self.new_entry = 

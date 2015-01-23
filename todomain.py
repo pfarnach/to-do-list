@@ -13,13 +13,29 @@ class ToDoListApp(object):
       
       
    def add_command(self, todolist):
-      print "Please enter task information."
-      
-      entry = TodoItem()
-      todolist.master_list.append(entry.add_entry())
-      print todolist.master_list
 
-      todolist.draw_table(todolist.master_list)
+      print "Please enter task information."
+
+      task_name = raw_input(">> What's the task? ")
+      task_type = raw_input(">> What's the type of task? (e.g. home/work/school) ")
+      due_date = raw_input(">> What day is the task due? ")
+      due_time = raw_input(">> What time is the task due? ")
+      task_owner = raw_input(">> Whose task is this? ")
+
+      entry = TodoItem(task_name = task_name, task_type=task_type, task_owner=task_owner, due_date=due_date, due_time=due_time)
+      todolist.master_list.append(entry.entry_list)
+
+      self.draw_table(todolist.master_list)
+
+   def draw_table(self, master_list):
+      col_titles = ['Done', 'Task Name', 'Task Type', 'Task owner', 'Due Date', 'Due Time', 'Date created', 'Time created']
+      
+      master_table = PrettyTable(col_titles)
+      
+      for entry in master_list:
+         master_table.add_row(entry)
+      
+      print master_table
       
    def command_loop(self):
       """Main command loop for todo list application"""
@@ -31,7 +47,6 @@ class ToDoListApp(object):
       
       # Current command the user entered
       command = ""
-
       
       # Main command loop - ask for the command and execute it. Quit if user enters 'quit'
       while command != "quit":
