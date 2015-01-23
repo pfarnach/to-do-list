@@ -6,6 +6,9 @@ from todo import TodoList, TodoItem
 
 
 class ToDoListApp(object):
+
+   def __init__(self):
+      self.task_counter = 0
    
    def show_banner(self):
       """Display the application welcome banner"""
@@ -16,27 +19,40 @@ class ToDoListApp(object):
 
       print "Please enter task information."
 
-      task_name = raw_input(">> What's the task? ")
-      task_type = raw_input(">> What's the type of task? (e.g. home/work/school) ")
-      due_date = raw_input(">> What day is the task due? ")
-      due_time = raw_input(">> What time is the task due? ")
-      task_owner = raw_input(">> Whose task is this? ")
+      task_name = raw_input(">> What's the task? ").strip().capitalize()
+      task_type = raw_input(">> What's the type of task? (e.g. home/work/school) ").strip().capitalize()
+      due_date = raw_input(">> What day is the task due? ").strip().capitalize()
+      due_time = raw_input(">> What time is the task due? ").strip().capitalize()
+      task_owner = raw_input(">> Whose task is this? ").strip().capitalize()
 
-      entry = TodoItem(task_name = task_name, task_type=task_type, task_owner=task_owner, due_date=due_date, due_time=due_time)
-      todolist.master_list.append(entry.entry_list)
+      self.task_counter += 1
+
+      entry = TodoItem(task_id = self.task_counter, task_name = task_name, task_type=task_type, task_owner=task_owner, due_date=due_date, due_time=due_time)
+      todolist.add_entry(entry.entry_list())
 
       self.draw_table(todolist.master_list)
 
+
+   def delete_command(self, todolist):
+      pass
+
+
    def draw_table(self, master_list):
-      col_titles = ['Done', 'Task Name', 'Task Type', 'Task owner', 'Due Date', 'Due Time', 'Date created', 'Time created']
+
+      # Provides table titles for prettytable
+      col_titles = ['ID', 'Done', 'Task Name', 'Task Type', 'Due Date', 'Due Time', 'Task owner', 'Created on']
       
+      # Puts table titles into table and aligns the first element to the left
       master_table = PrettyTable(col_titles)
-      
+      master_table.align['ID'] = 'l'
+
+      # goes through and places each entry into a new row and prints
       for entry in master_list:
          master_table.add_row(entry)
       
       print master_table
       
+
    def command_loop(self):
       """Main command loop for todo list application"""
       
@@ -51,25 +67,27 @@ class ToDoListApp(object):
       # Main command loop - ask for the command and execute it. Quit if user enters 'quit'
       while command != "quit":
 
-         print "You can type 'add', 'delete', 'find' or 'quit'."
+         print "Choose a number:\n1. Add a task\n2. Delete a task\n3. Find a task\n4. Quit"
          command = raw_input("What is your command: ").strip().lower()
          if not command:
             continue
             
-         if command == "quit":
-            break
-            
          #print "Executing", command
          
-         if command == 'add':
+         if command == '1':
             self.add_command(todolist)
-         
+
+         if command == '2':
+            self.delete_command(todolist)
+
+         if command == "4":
+            break
             
          else:
             print "Unknown command:", command
          
          
-      print "Goodbye"
+      print "Goodbye\n"
          
 
 
