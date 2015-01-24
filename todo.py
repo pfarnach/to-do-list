@@ -8,6 +8,7 @@ class TodoListStorage(object):
 	"""Used by TodoList, this class takes care or saving a loading todo lists"""
 	pass
 
+
 class TodoList(object):
 	"""Manage a list of ToDo items"""
 	def __init__(self):
@@ -16,8 +17,33 @@ class TodoList(object):
 	def add_entry(self, entry):
 		self.master_list.append(entry)
 
-	def delete_entry(self, entry):
-		pass
+	def delete_entry(self, entry_id):
+
+		self._temp_master_list = []
+
+		for entry in self.master_list:
+			if entry_id not in entry:
+				self._temp_master_list.append(entry)
+
+		if self.master_list == self._temp_master_list:
+			self.change = False
+		else:
+			self.change = True
+
+		self.master_list = self._temp_master_list
+
+		return self.change
+
+	def mark_done(self, entry_id):
+
+		self.change = False
+
+		for entry in self.master_list:
+			if entry_id in entry:
+				entry[1] = "Yes"
+				self.change = True
+
+		return self.change
 
 class TodoItem(object):
 	"""Manage a single ToDo item"""

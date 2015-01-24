@@ -12,7 +12,7 @@ class ToDoListApp(object):
    
    def show_banner(self):
       """Display the application welcome banner"""
-      print "\n\nWelcome to the ToDo list application\n\n"
+      print "\n\nWelcome to the ToDo list application"
       
       
    def add_command(self, todolist):
@@ -34,7 +34,39 @@ class ToDoListApp(object):
 
 
    def delete_command(self, todolist):
-      pass
+
+      requested_id = raw_input(">> Please enter a task ID for the entry you wish to delete: ").strip()
+
+      deleted = todolist.delete_entry(requested_id)
+
+      if not deleted:
+         print "\nSorry, no entry with an ID of %s was found.\n" % requested_id
+      else:
+         self.draw_table(todolist.master_list)
+
+
+   def mark_done_command(self, todolist):
+
+      requested_id = raw_input(">> Please enter a task ID for the entry you wish to mark as done: ").strip()
+
+      marked_done = todolist.mark_done(requested_id)
+
+      if not marked_done:
+         print "\nSorry, no entry with an ID of %s was found.\n" % requested_id
+      else:
+         print "\nEntry marked as done."
+         while True:
+            delete_entry = raw_input(">> Would you like to delete it from your list? \n").strip().lower()
+            if delete_entry == "yes" or delete_entry == "y":
+               deleted = todolist.delete_entry(requested_id)
+               break
+            elif delete_entry == "no" or delete_entry == "n":
+               break
+            else:
+               print "Sorry, that was a yes or no question."
+
+
+         self.draw_table(todolist.master_list)
 
 
    def draw_table(self, master_list):
@@ -67,20 +99,27 @@ class ToDoListApp(object):
       # Main command loop - ask for the command and execute it. Quit if user enters 'quit'
       while command != "quit":
 
-         print "Choose a number:\n1. Add a task\n2. Delete a task\n3. Find a task\n4. Quit"
-         command = raw_input("What is your command: ").strip().lower()
+         print "\n1. Add a task\n2. Delete a task\n3. Find a task\n4. Mark a task as done\n5. View current tasks\n0. Quit"
+         command = raw_input("Choose a number: ").strip()
+
          if not command:
             continue
-            
+   
          #print "Executing", command
          
          if command == '1':
             self.add_command(todolist)
 
-         if command == '2':
+         elif command == '2':
             self.delete_command(todolist)
 
-         if command == "4":
+         elif command == "4":
+            self.mark_done_command(todolist)
+
+         elif command == "5":
+            self.draw_table(todolist.master_list)
+
+         elif command == "0":
             break
             
          else:
