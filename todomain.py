@@ -9,21 +9,29 @@ class ToDoListApp(object):
 
    def __init__(self):
       self.task_counter = 0
+
    
    def show_banner(self):
       """Display the application welcome banner"""
       print "\n\nWelcome to the ToDo list application"
+
+
+   def check_empty(self, input_string):
+      if len(input_string) == 0:
+         return 'n/a'
+      else:
+         return input_string
       
       
    def add_command(self, todolist):
 
       print "Please enter task information."
 
-      task_name = raw_input(">> What's the task? ").strip().capitalize()
-      task_type = raw_input(">> What's the type of task? (e.g. home/work/school) ").strip().capitalize()
-      due_date = raw_input(">> What day is the task due? ").strip().capitalize()
-      due_time = raw_input(">> What time is the task due? ").strip().capitalize()
-      task_owner = raw_input(">> Whose task is this? ").strip().capitalize()
+      task_name = self.check_empty(raw_input(">> What's the task? ").strip().capitalize())
+      task_type = self.check_empty(raw_input(">> What's the type of task? (e.g. home/work/school) ").strip().capitalize())
+      due_date = self.check_empty(raw_input(">> What day is the task due? ").strip().capitalize())
+      due_time = self.check_empty(raw_input(">> What time is the task due? ").strip().capitalize())
+      task_owner = self.check_empty(raw_input(">> Whose task is this? ").strip().capitalize())
 
       self.task_counter += 1
 
