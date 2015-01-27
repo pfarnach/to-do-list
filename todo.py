@@ -1,21 +1,45 @@
 from prettytable import PrettyTable
-import datetime
+import datetime, json
 '''
 This module implements the classes for the ToDo list application
 '''
 
 class TodoListStorage(object):
 	"""Used by TodoList, this class takes care or saving a loading todo lists"""
-	pass
+	def __init__(self):
+		pass
+
+	def save_json(self, todolist):
+
+		self._save_json = []
+
+		for index, entry in enumerate(todolist):
+			self._save_json.append([index]) 
+			self._save_json[index]= {}
+			self._save_json[index]['ID'] = entry[0]
+			self._save_json[index]['done'] = entry[1]
+			self._save_json[index]['task name'] = entry[2]
+			self._save_json[index]['task type'] = entry[3]
+			self._save_json[index]['due date'] = entry[4]
+			self._save_json[index]['due time'] = entry[5]
+			self._save_json[index]['task owner'] = entry[6]
+			self._save_json[index]['created on'] = entry[7]
+
+		with open('jsonfile.txt', 'w') as outfile:
+			json.dump(self._save_json, outfile, indent=4)
 
 
 class TodoList(object):
 	"""Manage a list of ToDo items"""
 	def __init__(self):
+		# makes an empty list to start off with. All entries will work off of this list
 		self.master_list = []
 
 	def add_entry(self, entry):
-		self.master_list.append(entry)
+		# self.master_list.append(entry)  // old version
+
+		# prepends entry to master list so it's ordered by 'created on' by default
+		self.master_list.insert(0, entry)
 
 	def delete_entry(self, entry_id):
 
@@ -44,6 +68,21 @@ class TodoList(object):
 				self.change = True
 
 		return self.change
+
+	def update(self, entry_id, entry_field, entry_change):
+
+		self.change = False
+
+		for entry in self.master_list:
+			if entry_id in entry:
+				try:
+					entry[entry_field] = entry_change
+					self.change = True
+				except:
+					self.change = False
+
+		return self.change
+
 
 class TodoItem(object):
 	"""Manage a single ToDo item"""
