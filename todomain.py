@@ -78,8 +78,10 @@ class ToDoListApp(object):
 
    def update_command(self, todolist):
 
+      # asks user for ID of item they want to update
       requested_id = raw_input(">> Please enter a task ID for the entry you wish to update: ").strip()
       
+      # 
       try:
          print "What field would you like to update:\n1. Done?\n2. Task name\n3. Task type\n4. Due date\n5. Due time\n6. Task owner"
          requested_field = int(raw_input("\n>> Please enter the number of field you'd like to update: ").strip())
@@ -99,9 +101,39 @@ class ToDoListApp(object):
 
    def save_command(self,todolist, todoliststorage):
 
+      # sends list to be saved by TodoListStorage class
       todoliststorage.save_json(todolist.master_list)
 
       print "File saved.\n"
+
+   def load_command(self, todolist, todoliststorage):
+
+      # variable that will prevent user from importing more than once
+      self._already_loaded = False
+
+      if self._already_loaded == False:
+
+         # retrieves loaded list from TodoListStorage class
+         self.loaded_list = todoliststorage.load_json()
+
+         # appends each entry from loaded file into current master list
+         for entry in self.loaded_list:
+            todolist.master_list.append(entry)
+
+         # draws table with newly appended list
+         self.draw_table(todolist.master_list)
+
+         # sets the counter to where the loaded file leaves off
+         self._task_counter = int(self.loaded_list[0][0])
+
+         # sets already_loaded to True so you can't load files a second time
+         self._already_loaded = True
+
+         print "Tasks successfully loaded and imported"
+
+      else:
+
+         print "The tasks have already been loaded. Not loaded again."
 
 
    def draw_table(self, master_list):
@@ -137,14 +169,12 @@ class ToDoListApp(object):
       # Main command loop - ask for the command and execute it. Quit if user enters 'quit'
       while command != "quit":
 
-         print "\n1. Add a task\n2. Delete a task\n3. Update a task\n4. Mark a task as done\n5. View current tasks\n6. Arrange to-do list by field\n7. Save tasks to JSON file\n0. Quit"
+         print "\n1. Add a task\n2. Delete a task\n3. Update a task\n4. Mark a task as done\n5. View current tasks\n6. Save tasks to JSON file\n7. Load tasks from JSON file\n0. Quit"
          command = raw_input("Choose a number: ").strip()
          print
 
          if not command:
             continue
-   
-
          
          if command == '1':
             self.add_command(todolist)
@@ -161,10 +191,10 @@ class ToDoListApp(object):
          elif command == "5":
             self.draw_table(todolist.master_list)
 
-         elif command == "6":
-            self.arrange_command(todolist)
-
          elif command == "7":
+            self.load_command(todolist, todoliststorage)
+
+         elif command == "6":
             self.save_command(todolist, todoliststorage)
 
          elif command == "0":

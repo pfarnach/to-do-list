@@ -18,15 +18,35 @@ class TodoListStorage(object):
 			self._save_json[index]= {}
 			self._save_json[index]['ID'] = entry[0]
 			self._save_json[index]['done'] = entry[1]
-			self._save_json[index]['task name'] = entry[2]
-			self._save_json[index]['task type'] = entry[3]
-			self._save_json[index]['due date'] = entry[4]
-			self._save_json[index]['due time'] = entry[5]
-			self._save_json[index]['task owner'] = entry[6]
-			self._save_json[index]['created on'] = entry[7]
+			self._save_json[index]['task_name'] = entry[2]
+			self._save_json[index]['task_type'] = entry[3]
+			self._save_json[index]['due_date'] = entry[4]
+			self._save_json[index]['due_time'] = entry[5]
+			self._save_json[index]['task_owner'] = entry[6]
+			self._save_json[index]['created_on'] = entry[7]
 
 		with open('jsonfile.txt', 'w') as outfile:
 			json.dump(self._save_json, outfile, indent=4)
+
+
+	def load_json(self):
+		f = json.loads(open('jsonfile.txt').read())
+		# print f[0]['task_type']
+
+		self.loaded_list = []
+
+		for index, entry in enumerate(f):
+			self.loaded_list.append([])
+			self.loaded_list[index].append(entry['ID'])
+			self.loaded_list[index].append(entry['done'])
+			self.loaded_list[index].append(entry['task_name'])
+			self.loaded_list[index].append(entry['task_type'])
+			self.loaded_list[index].append(entry['due_date'])
+			self.loaded_list[index].append(entry['due_time'])
+			self.loaded_list[index].append(entry['task_owner'])
+			self.loaded_list[index].append(entry['created_on'])
+
+		return self.loaded_list
 
 
 class TodoList(object):

@@ -1,22 +1,32 @@
 [
     {
-        "task type": "5", 
-        "due date": "5", 
-        "created on": "01-26 15:33:56", 
-        "task name": "5", 
+        "due_date": "Thursday", 
+        "task_type": "School", 
+        "created_on": "01-28 11:05:46", 
+        "task_owner": "Pat", 
+        "due_time": "n/a", 
         "done": "No", 
-        "due time": "5", 
-        "task owner": "5", 
+        "task_name": "Coding project", 
+        "ID": "003"
+    }, 
+    {
+        "due_date": "Friday", 
+        "task_type": "School", 
+        "created_on": "01-28 11:05:24", 
+        "task_owner": "Pat", 
+        "due_time": "n/a", 
+        "done": "No", 
+        "task_name": "Homework", 
         "ID": "002"
     }, 
     {
-        "task type": "2", 
-        "due date": "2", 
-        "created on": "01-26 15:33:53", 
-        "task name": "2", 
+        "due_date": "Tomorrow", 
+        "task_type": "Home", 
+        "created_on": "01-28 11:05:03", 
+        "task_owner": "Pat", 
+        "due_time": "12:00", 
         "done": "No", 
-        "due time": "2", 
-        "task owner": "2", 
+        "task_name": "Dusting", 
         "ID": "001"
     }
 ]
